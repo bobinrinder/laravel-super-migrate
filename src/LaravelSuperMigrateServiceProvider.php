@@ -2,9 +2,9 @@
 
 namespace Bobinrinder\LaravelSuperMigrate;
 
+use Bobinrinder\LaravelSuperMigrate\Commands\LaravelSuperMigrateCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use Bobinrinder\LaravelSuperMigrate\Commands\LaravelSuperMigrateCommand;
 
 class LaravelSuperMigrateServiceProvider extends PackageServiceProvider
 {
