@@ -1,8 +1,8 @@
 # This is my package laravel-super-migrate
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/bobinrinder/laravel-super-migrate.svg?style=flat-square)](https://packagist.org/packages/bobinrinder/laravel-super-migrate)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/bobinrinder/laravel-super-migrate/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/bobinrinder/laravel-super-migrate/actions?query=workflow%3Arun-tests+branch%3Amain)
-[![GitHub Code Style Action Status](https://img.shields.io/github/actions/workflow/status/bobinrinder/laravel-super-migrate/fix-php-code-style-issues.yml?branch=main&label=code%20style&style=flat-square)](https://github.com/bobinrinder/laravel-super-migrate/actions?query=workflow%3A"Fix+PHP+code+style+issues"+branch%3Amain)
+[![GitHub Tests Action Status](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/run-tests.yml/badge.svg)](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/run-tests.yml)
+[![GitHub Code Style Action Status](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/fix-php-code-style-issues.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/bobinrinder/laravel-super-migrate.svg?style=flat-square)](https://packagist.org/packages/bobinrinder/laravel-super-migrate)
 
 This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
