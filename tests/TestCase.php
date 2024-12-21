@@ -2,9 +2,9 @@
 
 namespace Bobinrinder\LaravelSuperMigrate\Tests;
 
+use Bobinrinder\LaravelSuperMigrate\LaravelSuperMigrateServiceProvider;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Orchestra\Testbench\TestCase as Orchestra;
-use Bobinrinder\LaravelSuperMigrate\LaravelSuperMigrateServiceProvider;
 
 class TestCase extends Orchestra
 {
