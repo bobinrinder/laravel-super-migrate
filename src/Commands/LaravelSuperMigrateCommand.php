@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Bobinrinder\LaravelSuperMigrate\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class LaravelSuperMigrateCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'laravel-super-migrate';
 
     public $description = 'My command';
 
