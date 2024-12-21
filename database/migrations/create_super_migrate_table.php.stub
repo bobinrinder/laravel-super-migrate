@@ -8,10 +8,13 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laravel_super_migrate_table', function (Blueprint $table) {
+        Schema::create('laravel_super_migrations', function (Blueprint $table) {
             $table->id();
 
-            // add fields
+            $table->foreign('migration_id')
+                ->references('id')
+                ->on('migrations')
+                ->onDelete('cascade');
 
             $table->timestamps();
         });
