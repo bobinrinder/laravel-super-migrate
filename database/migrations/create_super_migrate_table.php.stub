@@ -11,12 +11,24 @@ return new class extends Migration
         Schema::create('laravel_super_migrations', function (Blueprint $table) {
             $table->id();
 
-            $table->foreign('migration_id')
-                ->references('id')
-                ->on('migrations')
-                ->onDelete('cascade');
+            $table->uuid('run_id');
+            $table->index('run_id');
+
+            $table->string('method')->nullable();
+
+            $table->string('name')->nullable();
+
+            $table->timestamp('started_at')->nullable();
+            $table->timestamp('finished_at')->nullable();
+
+            $table->text('error')->nullable();
 
             $table->timestamps();
         });
+    }
+
+    public function down()
+    {
+        Schema::dropIfExists('laravel_super_migrations');
     }
 };

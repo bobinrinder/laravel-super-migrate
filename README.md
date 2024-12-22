@@ -1,11 +1,20 @@
-# This is my package laravel-super-migrate
+# laravel-super-migrate
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/bobinrinder/laravel-super-migrate.svg?style=flat-square)](https://packagist.org/packages/bobinrinder/laravel-super-migrate)
 [![GitHub Tests Action Status](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/run-tests.yml/badge.svg)](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/run-tests.yml)
 [![GitHub Code Style Action Status](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/fix-php-code-style-issues.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/bobinrinder/laravel-super-migrate.svg?style=flat-square)](https://packagist.org/packages/bobinrinder/laravel-super-migrate)
 
-This is where your description should go. Limit it to a paragraph or two. Consider adding a small example.
+This package intends to extend Laravel's default migration functionality.
+
+This package provides:
+
+-   Extensive logs for every migration run and rollback
+-   Logging of exceptions happening in migrations
+-   (TODO) Log events and errors to Slack etc via Monolog
+-   (TODO) UI to look at data
+-   (TODO) CLI to look at data
+-   (TODO) Super migrate function that prevents parallel runs
 
 ## Installation
 
@@ -42,6 +51,8 @@ php artisan vendor:publish --tag="laravel-super-migrate-views"
 ```
 
 ## Usage
+
+Use Laravel's migration system like you usually do.
 
 ```php
 $laravelSuperMigrate = new Bobinrinder\LaravelSuperMigrate();
