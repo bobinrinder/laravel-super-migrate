@@ -5,6 +5,7 @@ namespace Bobinrinder\LaravelSuperMigrate\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationEvent;
 use Illuminate\Support\Str;
+use Symfony\Component\Console\Output\ConsoleOutput;
 
 class LaravelSuperMigration extends Model
 {
@@ -55,15 +56,32 @@ class LaravelSuperMigration extends Model
 
     public static function start(MigrationEvent $event)
     {
-        // Check if there is any active migration running already
-        $existingMigration = self::orderBy('id', 'DESC')->firstWhere([
-            'finished_at' => null,
-            'failed_at' => null,
-        ]);
+        // Check if config allows parallel migrations
+        if (config('super-migrate.allow_parallel_migrations') === false) {
 
-        // If there is currently a migration runnning, do not start a new one
-        if ($existingMigration) {
-            throw new \Exception('Migration already started: '.$existingMigration->name);
+            // Check if there is any active migration running already
+            $existingMigration = self::orderBy('id', 'DESC')->firstWhere([
+                'finished_at' => null,
+                'failed_at' => null,
+            ]);
+
+            if ($existingMigration) {
+
+                $output = new ConsoleOutput;
+                $output->writeln('');
+                $output->writeln('<info>You have parallel migration prevention activated.</info>');
+                $output->writeln('<comment>Active migration running: '.$existingMigration->name.'</comment>');
+
+                // If there is currently a migration runnning, do not start a new one
+                if ($existingMigration && config('super-migrate.fail_gracefully_on_parallel_migrations') === false) {
+                    $output->writeln('<error>Aborting migration...</error>');
+                    throw new \Exception('Migration already started: '.$existingMigration->name);
+                } else {
+                    // stop the migration and exit the process gracefully
+                    $output->writeln('<comment>Aborting migration gracefully...</comment>');
+                    exit(0);
+                }
+            }
         }
 
         return self::create([

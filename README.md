@@ -10,11 +10,11 @@ This package intends to extend Laravel's default migration functionality.
 This package provides:
 
 -   Extensive logs for every migration run and rollback
--   Logging of exceptions happening in migrations
+-   Logging of exceptions and stack traces happening in migrations
+-   Prevention of parallel migration runs
 -   (TODO) Log events and errors to Slack etc via Monolog
 -   (TODO) UI to look at data
 -   (TODO) CLI to look at data
--   (TODO) Super migrate function that prevents parallel runs
 
 ## Installation
 
@@ -34,7 +34,7 @@ php artisan migrate
 You can publish the config file with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-super-migrate-config"
+php artisan vendor:publish --tag="super-migrate-config"
 ```
 
 This is the contents of the published config file:
@@ -53,10 +53,10 @@ php artisan vendor:publish --tag="laravel-super-migrate-views"
 ## Usage
 
 Use Laravel's migration system like you usually do.
+Laravel Super Migrate will work seamlessly in the background.
 
-```php
-$laravelSuperMigrate = new Bobinrinder\LaravelSuperMigrate();
-echo $laravelSuperMigrate->echoPhrase('Hello, Bobinrinder!');
+```bash
+php artisan migrate
 ```
 
 ## Testing
