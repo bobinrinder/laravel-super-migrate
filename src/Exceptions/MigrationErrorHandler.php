@@ -34,7 +34,7 @@ class MigrationErrorHandler implements ExceptionHandler
 
     public function renderForConsole($output, Throwable $exception)
     {
-        return $this->originalHandler->renderForConsole($output, $exception);
+        $this->originalHandler->renderForConsole($output, $exception);
     }
 
     public function shouldReport(Throwable $exception)
@@ -50,6 +50,17 @@ class MigrationErrorHandler implements ExceptionHandler
     protected function isMigrationError(Throwable $exception)
     {
         // Check if the error occurred in the migrations directory
-        return app()->runningInConsole() && str_contains($exception->getFile(), '/database/migrations/');
+        if (app()->runningInConsole() && str_contains($exception->getFile(), '/database/migrations/')) {
+            return true;
+        }
+
+        // Check the stack trace for references to the migrations directory
+        foreach ($exception->getTrace() as $trace) {
+            if (isset($trace['file']) && str_contains($trace['file'], '/database/migrations/')) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

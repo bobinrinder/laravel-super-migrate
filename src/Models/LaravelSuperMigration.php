@@ -4,17 +4,20 @@ namespace Bobinrinder\LaravelSuperMigrate\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationEvent;
+use Illuminate\Support\Str;
 
 class LaravelSuperMigration extends Model
 {
     protected $guarded = [];
+
+    public $timestamps = false;
 
     // this uuid identifies a single migration run
     protected static $runId;
 
     public static function initRunId(): string
     {
-        self::$runId = (string) \Str::uuid();
+        self::$runId = (string) Str::uuid();
 
         return self::$runId;
     }
@@ -52,6 +55,17 @@ class LaravelSuperMigration extends Model
 
     public static function start(MigrationEvent $event)
     {
+        // Check if there is any active migration running already
+        $existingMigration = self::orderBy('id', 'DESC')->firstWhere([
+            'finished_at' => null,
+            'failed_at' => null,
+        ]);
+
+        // If there is currently a migration runnning, do not start a new one
+        if ($existingMigration) {
+            throw new \Exception('Migration already started: '.$existingMigration->name);
+        }
+
         return self::create([
             'name' => self::getMigrationNameFromEvent($event),
             'method' => $event->method,
@@ -83,11 +97,15 @@ class LaravelSuperMigration extends Model
         ]);
 
         if ($lsm) {
-            $lsm->finished_at = now();
+            $lsm->failed_at = now();
             if ($error) {
                 $lsm->error = $error;
             }
             $lsm->save();
+
+            return;
         }
+
+        throw new \Exception('Super migrate failed logging!');
     }
 }
