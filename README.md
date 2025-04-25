@@ -31,17 +31,10 @@ php artisan vendor:publish --tag="laravel-super-migrate-migrations"
 php artisan migrate
 ```
 
-You can publish the config file with:
+You can publish the [config file](https://github.com/bobinrinder/laravel-super-migrate/blob/main/config/super-migrate.php) with:
 
 ```bash
 php artisan vendor:publish --tag="super-migrate-config"
-```
-
-This is the contents of the published config file:
-
-```php
-return [
-];
 ```
 
 Optionally, you can publish the views using
