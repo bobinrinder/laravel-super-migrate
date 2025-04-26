@@ -20,7 +20,7 @@ class MigrationErrorHandler implements ExceptionHandler
         // Check if the exception is related to migrations
         if ($this->isMigrationError($exception)) {
             // Log or handle the migration error as necessary
-            LaravelSuperMigration::fail($exception->getMessage());
+            LaravelSuperMigration::fail($exception);
         }
 
         // Call the original exception handler to handle other exceptions

@@ -54,8 +54,23 @@ class LaravelSuperMigration extends Model
         return self::getMigrationNameFromString($className);
     }
 
+    public static function isInitialMigration(MigrationEvent $event): bool
+    {
+        $migrationName = self::getMigrationNameFromEvent($event);
+        if (str_contains($migrationName, 'create_super_migrate_table')) {
+            return true;
+        }
+
+        return false;
+    }
+
     public static function start(MigrationEvent $event)
     {
+        // Check if this is the initial migration
+        if (self::isInitialMigration($event)) {
+            return;
+        }
+
         // Check if config allows parallel migrations
         if (config('super-migrate.allow_parallel_migrations') === false) {
 
@@ -92,8 +107,13 @@ class LaravelSuperMigration extends Model
         ]);
     }
 
-    public static function finish(MigrationEvent $event)
+    public static function finish(MigrationEvent $event): void
     {
+        // Check if this is the initial migration
+        if (self::isInitialMigration($event)) {
+            return;
+        }
+
         $lsm = self::orderBy('id', 'DESC')->firstWhere([
             'name' => self::getMigrationNameFromEvent($event),
             'method' => $event->method,
@@ -107,7 +127,7 @@ class LaravelSuperMigration extends Model
         }
     }
 
-    public static function fail(string $error = '')
+    public static function fail(\Throwable $exception): void
     {
         $lsm = self::orderBy('id', 'DESC')->firstWhere([
             'finished_at' => null,
@@ -116,8 +136,11 @@ class LaravelSuperMigration extends Model
 
         if ($lsm) {
             $lsm->failed_at = now();
-            if ($error) {
-                $lsm->error = $error;
+            if ($exception->getMessage()) {
+                $lsm->error = $exception->getMessage();
+            }
+            if ($exception->getTraceAsString()) {
+                $lsm->stack_trace = $exception->getTraceAsString();
             }
             $lsm->save();
 
