@@ -33,10 +33,8 @@ class LaravelSuperMigrateServiceProvider extends PackageServiceProvider
     /**
      * Bootstrap any application services.
      */
-    public function boot(): void
+    public function packageBooted(): void
     {
-        parent::boot();
-
         Event::listen(function (MigrationsStarted $event) {
             $runId = LaravelSuperMigration::initRunId();
         });
@@ -50,10 +48,8 @@ class LaravelSuperMigrateServiceProvider extends PackageServiceProvider
         });
     }
 
-    public function register()
+    public function packageRegistered()
     {
-        parent::register();
-
         // Extend Laravel's exception handler
         $this->app->extend(ExceptionHandler::class, function ($originalHandler, $app) {
             return new MigrationErrorHandler($originalHandler);
