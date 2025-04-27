@@ -27,7 +27,7 @@ composer require bobinrinder/laravel-super-migrate
 You can publish and run the migrations with:
 
 ```bash
-php artisan vendor:publish --tag="laravel-super-migrate-migrations"
+php artisan vendor:publish --tag="super-migrate-migrations"
 php artisan migrate
 ```
 
@@ -40,12 +40,13 @@ php artisan vendor:publish --tag="super-migrate-config"
 Optionally, you can publish the views using
 
 ```bash
-php artisan vendor:publish --tag="laravel-super-migrate-views"
+php artisan vendor:publish --tag="super-migrate-views"
 ```
 
 ## Usage
 
 Use Laravel's migration system like you usually do.
+
 Laravel Super Migrate will work seamlessly in the background.
 
 ```bash

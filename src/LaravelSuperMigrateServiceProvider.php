@@ -23,7 +23,7 @@ class LaravelSuperMigrateServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('laravel-super-migrate')
+            ->name('super-migrate')
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_super_migrate_table')
