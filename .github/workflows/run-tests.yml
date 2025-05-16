@@ -24,6 +24,9 @@ jobs:
           - laravel: 12.*
             testbench: 10.*
             carbon: ^3.91
+            pest: ^3.2.0
+            larastan: ^3.4.0
+            phpstan-deprecation-rules: ^2.0.0
           - laravel: 11.*
             testbench: 9.*
             carbon: ^2.73
