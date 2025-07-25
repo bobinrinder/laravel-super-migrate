@@ -18,7 +18,7 @@ class MigrationTest extends TestCase
         $this->assertTrue(Schema::hasTable('laravel_super_migrations'));
     }
 
-    public function rollbackTestMigration(string $migrationName, string $filename)
+    public function rollbackTestMigration(string $migrationName, string $filename): void
     {
         $source = __DIR__."/../database/migrations/{$migrationName}";
         $target = base_path("database/migrations/{$filename}");
@@ -44,7 +44,7 @@ class MigrationTest extends TestCase
         unlink($target);
     }
 
-    public function runTestMigration(string $filename)
+    public function runTestMigration(string $filename): string
     {
         $migrationName = str_replace('.php', '', $filename);
         $uniqueName = uniqid($migrationName.'_', true).'.php';
@@ -57,12 +57,26 @@ class MigrationTest extends TestCase
         try {
             $this->artisan('migrate')->run();
         } catch (\Throwable $e) {
+            app(\Illuminate\Contracts\Debug\ExceptionHandler::class)->report($e);
             // dump($e->getMessage());
         }
 
         unlink($target);
 
         return $uniqueName;
+    }
+
+    public function getMigrationName(string $name): string
+    {
+        // Check if the name is binary (anonymous class)
+        // assuming binary names contain non-ASCII bytes
+        $isBinary = !mb_check_encoding($name, 'UTF-8');
+
+        if ($isBinary) {
+            return hex2bin(unpack('H*', $name)[1]);
+        }
+
+        return $name;
     }
 
     public function test_migration_applies_and_rolls_back_expected_changes()
@@ -76,17 +90,26 @@ class MigrationTest extends TestCase
         expect(Schema::hasTable('success_table'))->toBeTrue();
         expect(Schema::hasColumn('success_table', 'name'))->toBeTrue();
 
-        // name is binary cause of anonymous class
-        $name = DB::table('laravel_super_migrations')->orderBy('id', 'desc')->first()->name;
-        expect($name)->not->toBeNull();
-        $decodedName = hex2bin(unpack('H*', $name)[1]);
-        // var_dump($decodedName);
+        $lsmEntry = DB::table('laravel_super_migrations')->orderBy('id', 'desc')->first();
+        expect($lsmEntry->name)->not->toBeNull();
+        $decodedName = $this->getMigrationName($lsmEntry->name);
 
         expect(str_contains($decodedName, 'successful_migration'))->toBeTrue();
+        expect($lsmEntry->method === 'up')->toBeTrue();
+        expect($lsmEntry->started_at)->not->toBeNull();
+        expect($lsmEntry->finished_at)->not->toBeNull();
+        expect($lsmEntry->failed_at)->toBeNull();
 
         $this->rollbackTestMigration('successful_migration.php', $filename);
 
         expect(Schema::hasTable('success_table'))->toBeFalse();
+
+        $lsmEntry = DB::table('laravel_super_migrations')->orderBy('id', 'desc')->first();
+        expect(str_contains($decodedName, 'successful_migration'))->toBeTrue();
+        expect($lsmEntry->method === 'down')->toBeTrue();
+        expect($lsmEntry->started_at)->not->toBeNull();
+        expect($lsmEntry->finished_at)->not->toBeNull();
+        expect($lsmEntry->failed_at)->toBeNull();
     }
 
     public function test_migration_error_logs_correctly()
@@ -99,17 +122,13 @@ class MigrationTest extends TestCase
 
         expect(Schema::hasTable('error_table'))->toBeFalse();
 
-        // name is binary cause of anonymous class
         $lsmEntry = DB::table('laravel_super_migrations')->orderBy('id', 'desc')->first();
         expect($lsmEntry->name)->not->toBeNull();
-        $decodedName = hex2bin(unpack('H*', $lsmEntry->name)[1]);
-
-        // var_dump($lsmEntry);
+        $decodedName = $this->getMigrationName($lsmEntry->name);
 
         expect(str_contains($decodedName, $migrationName))->toBeTrue();
-
-        // $this->runTestMigration('successful_migration.php', true);
-
-        // expect(Schema::hasTable('success_table'))->toBeFalse();
+        expect($lsmEntry->failed_at)->not->toBeNull();
+        expect($lsmEntry->error)->not->toBeNull();
+        expect($lsmEntry->stack_trace)->not->toBeNull();
     }
 }
