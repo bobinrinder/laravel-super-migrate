@@ -70,7 +70,7 @@ class MigrationTest extends TestCase
     {
         // Check if the name is binary (anonymous class)
         // assuming binary names contain non-ASCII bytes
-        $isBinary = !mb_check_encoding($name, 'UTF-8');
+        $isBinary = ! mb_check_encoding($name, 'UTF-8');
 
         if ($isBinary) {
             return hex2bin(unpack('H*', $name)[1]);
