@@ -34,6 +34,9 @@ class MigrationTest extends TestCase
             if (str_contains($output->fetch(), $migrationName)) {
                 Artisan::call('migrate:rollback', ['--step' => 1], $output);
             }
+            else {
+                $this->fail("Migration rollback did not find expected migration $migrationName.");
+            }
             // dump($output->fetch());
         } catch (\Throwable $e) {
             // dump($e->getMessage());
