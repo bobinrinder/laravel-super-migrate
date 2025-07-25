@@ -4,10 +4,11 @@ namespace Tests\Feature;
 
 use Bobinrinder\LaravelSuperMigrate\Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Schema;
-use Symfony\Component\Console\Output\BufferedOutput;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Symfony\Component\Console\Output\BufferedOutput;
+
 class MigrationTest extends TestCase
 {
     use RefreshDatabase;
@@ -22,13 +23,12 @@ class MigrationTest extends TestCase
         $source = __DIR__."/../database/migrations/{$migrationName}";
         $target = base_path("database/migrations/{$filename}");
 
-
         copy($source, $target);
 
         // $relativePath = str_replace(base_path() . '/', '', $target);
 
         try {
-            $output = new BufferedOutput();
+            $output = new BufferedOutput;
             Artisan::call('migrate:rollback', ['--step' => 1, '--pretend' => true], $output);
             $migrationName = str_replace('.php', '', $filename);
             if (str_contains($output->fetch(), $migrationName)) {
@@ -45,7 +45,7 @@ class MigrationTest extends TestCase
     public function runTestMigration(string $filename)
     {
         $migrationName = str_replace('.php', '', $filename);
-        $uniqueName = uniqid($migrationName . "_", true).'.php';
+        $uniqueName = uniqid($migrationName.'_', true).'.php';
 
         $source = __DIR__."/../database/migrations/{$filename}";
         $target = base_path("database/migrations/{$uniqueName}");
@@ -59,6 +59,7 @@ class MigrationTest extends TestCase
         }
 
         unlink($target);
+
         return $uniqueName;
     }
 
