@@ -33,8 +33,7 @@ class MigrationTest extends TestCase
             $migrationName = str_replace('.php', '', $filename);
             if (str_contains($output->fetch(), $migrationName)) {
                 Artisan::call('migrate:rollback', ['--step' => 1], $output);
-            }
-            else {
+            } else {
                 $this->fail("Migration rollback did not find expected migration $migrationName.");
             }
             // dump($output->fetch());
