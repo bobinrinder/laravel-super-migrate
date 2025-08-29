@@ -4,9 +4,17 @@ namespace Bobinrinder\LaravelSuperMigrate\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationEvent;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
+/**
+ * @property string|null $name
+ * @property Carbon|null $finished_at
+ * @property Carbon|null $failed_at
+ * @property string|null $error
+ * @property string|null $stack_trace
+ */
 class LaravelSuperMigration extends Model
 {
     protected $guarded = [];
@@ -88,7 +96,7 @@ class LaravelSuperMigration extends Model
                 $output->writeln('<comment>Active migration running: '.$existingMigration->name.'</comment>');
 
                 // If there is currently a migration runnning, do not start a new one
-                if ($existingMigration && config('super-migrate.fail_gracefully_on_parallel_migrations') === false) {
+                if (config('super-migrate.fail_gracefully_on_parallel_migrations') === false) {
                     $output->writeln('<error>Aborting migration...</error>');
                     throw new \Exception('Migration already started: '.$existingMigration->name);
                 } else {
