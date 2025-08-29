@@ -7,14 +7,15 @@
 
 This package intends to extend Laravel's default migration functionality.
 
-This package provides:
+It provides:
 
 -   Extensive logs for every migration run and rollback
+-   Provides timestamps for start, finish and failure
 -   Logging of exceptions and stack traces happening in migrations
--   Prevention of parallel migration runs
+-   Optional prevention of parallel migration runs
+-   CLI to look at history
 -   [ ] (TODO) Log events and errors to Slack etc via Monolog
--   [ ] (TODO) UI to look at data
--   [ ] (TODO) CLI to look at data
+-   [ ] (TODO) UI to look at history
 
 ## Installation
 
@@ -51,6 +52,12 @@ Laravel Super Migrate will work seamlessly in the background.
 
 ```bash
 php artisan migrate
+```
+
+To show a history of migrations run:
+
+```bash
+php artisan super-migrate
 ```
 
 ## Testing
