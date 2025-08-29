@@ -1,4 +1,4 @@
-# Laravel Super Migrate
+# 🚀 Laravel Super Migrate
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/bobinrinder/laravel-super-migrate.svg?style=flat-square)](https://packagist.org/packages/bobinrinder/laravel-super-migrate)
 [![GitHub Tests Action Status](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/run-tests.yml/badge.svg)](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/run-tests.yml)
@@ -12,9 +12,9 @@ This package provides:
 -   Extensive logs for every migration run and rollback
 -   Logging of exceptions and stack traces happening in migrations
 -   Prevention of parallel migration runs
--   (TODO) Log events and errors to Slack etc via Monolog
--   (TODO) UI to look at data
--   (TODO) CLI to look at data
+-   [ ] (TODO) Log events and errors to Slack etc via Monolog
+-   [ ] (TODO) UI to look at data
+-   [ ] (TODO) CLI to look at data
 
 ## Installation
 
