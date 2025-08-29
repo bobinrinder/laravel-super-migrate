@@ -2,8 +2,9 @@
 
 namespace Bobinrinder\LaravelSuperMigrate\Commands;
 
-use Illuminate\Console\Command;
 use Bobinrinder\LaravelSuperMigrate\Models\LaravelSuperMigration;
+use Illuminate\Console\Command;
+
 class LaravelSuperMigrateCommand extends Command
 {
     public $signature = 'super-migrate';
