@@ -126,7 +126,7 @@ class MigrationTest extends TestCase
         expect($lsmEntry->name)->not->toBeNull();
         $decodedName = $this->getMigrationName($lsmEntry->name);
 
-        expect(str_contains($decodedName, $migrationName))->toBeTrue();
+        expect(str_contains($migrationName, $decodedName))->toBeTrue();
         expect($lsmEntry->failed_at)->not->toBeNull();
         expect($lsmEntry->error)->not->toBeNull();
         expect($lsmEntry->stack_trace)->not->toBeNull();
