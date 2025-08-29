@@ -37,11 +37,11 @@ You can publish the [config file](https://github.com/bobinrinder/laravel-super-m
 php artisan vendor:publish --tag="super-migrate-config"
 ```
 
-Optionally, you can publish the views using
+<!-- Optionally, you can publish the views using
 
 ```bash
 php artisan vendor:publish --tag="super-migrate-views"
-```
+``` -->
 
 ## Usage
 
