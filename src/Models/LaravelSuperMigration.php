@@ -44,11 +44,11 @@ class LaravelSuperMigration extends Model
     public static function getMigrationNameFromString(string $string): string
     {
         // Extract the file name from the class path
-        $pattern = '/\d{4}_\d{2}_\d{2}_\d{6}_[a-z0-9_]+/';
+        $pattern = '#/migrations/([^/]+)\.php#i';
         preg_match($pattern, $string, $matches);
 
         if (! empty($matches)) {
-            return $matches[0];
+            return $matches[1];
         }
 
         return $string;
