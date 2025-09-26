@@ -2,7 +2,8 @@
 
 namespace Bobinrinder\LaravelSuperMigrate;
 
-use Bobinrinder\LaravelSuperMigrate\Commands\LaravelSuperMigrateCommand;
+use Bobinrinder\LaravelSuperMigrate\Commands\LastErrorCommand;
+use Bobinrinder\LaravelSuperMigrate\Commands\ListCommand;
 use Bobinrinder\LaravelSuperMigrate\Exceptions\MigrationErrorHandler;
 use Bobinrinder\LaravelSuperMigrate\Models\LaravelSuperMigration;
 use Illuminate\Contracts\Debug\ExceptionHandler;
@@ -28,7 +29,8 @@ class LaravelSuperMigrateServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_super_migrate_table')
-            ->hasCommand(LaravelSuperMigrateCommand::class)
+            ->hasCommand(ListCommand::class)
+            ->hasCommand(LastErrorCommand::class)
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()

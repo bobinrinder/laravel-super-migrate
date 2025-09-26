@@ -7,15 +7,16 @@
 
 This package intends to extend Laravel's default migration functionality.
 
-It provides:
+It hooks seamlessly into the existing migration process, but tracks more details than the built-in process.
 
--   Extensive logs for every migration run and rollback
--   Provides timestamps for start, finish and failure
--   Logging of exceptions and stack traces happening in migrations
--   Optional prevention of parallel migration runs
--   CLI to look at history
--   [ ] (TODO) Log events and errors to Slack etc via Monolog
--   [ ] (TODO) UI to look at history
+| Feature                           | Super Migrate | Native Laravel |
+| :-------------------------------- | :-----------: | :------------: |
+| Logs migrations                   |      ✅       |       ✅       |
+| Logs start, end and failure times |      ✅       |       ❌       |
+| Logs rollbacks                    |      ✅       |       ❌       |
+| Logs exceptions with stack trace  |      ✅       |       ❌       |
+| CLI to see history and failures   |      ✅       |       ❌       |
+| Optional parallel run prevention  |      ✅       |       ❌       |
 
 ## Installation
 
@@ -48,8 +49,6 @@ php artisan vendor:publish --tag="super-migrate-views"
 
 Use Laravel's migration system like you usually do.
 
-Laravel Super Migrate will work seamlessly in the background.
-
 ```bash
 php artisan migrate
 ```
@@ -57,7 +56,19 @@ php artisan migrate
 To show a history of migrations run:
 
 ```bash
-php artisan super-migrate
+php artisan super-migrate:list
+```
+
+To show details of the last failure:
+
+```bash
+php artisan super-migrate:failure
+```
+
+To show details of a specific failure add the ID seen in the `list` command:
+
+```bash
+php artisan super-migrate:failure 5
 ```
 
 ## Testing
@@ -65,6 +76,11 @@ php artisan super-migrate
 ```bash
 composer test
 ```
+
+## Roadmap
+
+-   [ ] Log events and errors to Slack etc via Monolog
+-   [ ] Web/Nova UI to look at history
 
 ## Changelog
 
