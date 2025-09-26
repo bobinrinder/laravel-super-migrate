@@ -13,7 +13,8 @@ class ListCommand extends Command
 
     public function handle(): int
     {
-        $lsm = LaravelSuperMigration::select('id', 'method', 'name', 'started_at', 'finished_at', 'failed_at')->get(10)->toArray();
+        $lsm = LaravelSuperMigration::select('id', 'method', 'name', 'started_at', 'finished_at', 'failed_at')
+            ->orderByDesc('started_at')->limit(20)->get()->toArray();
 
         // add a status column
         foreach ($lsm as &$migration) {
