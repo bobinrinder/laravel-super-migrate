@@ -89,7 +89,7 @@ class LaravelSuperMigration extends Model
         }
 
         // Check if config allows parallel migrations
-        if (config('super-migrate.allow_parallel_migrations') === false) {
+        if (config('super-migrate.allow_parallel_migrations', true) === false) {
 
             // Check if there is any active migration running already
             $existingMigration = self::orderBy('id', 'DESC')->firstWhere([
@@ -105,7 +105,7 @@ class LaravelSuperMigration extends Model
                 $output->writeln('<comment>Active migration running: '.$existingMigration->name.'</comment>');
 
                 // If there is currently a migration runnning, do not start a new one
-                if (config('super-migrate.fail_gracefully_on_parallel_migrations') === false) {
+                if (config('super-migrate.fail_gracefully_on_parallel_migrations', true) === false) {
                     $output->writeln('<error>Aborting migration...</error>');
                     throw new \Exception('Migration already started: '.$existingMigration->name);
                 } else {
