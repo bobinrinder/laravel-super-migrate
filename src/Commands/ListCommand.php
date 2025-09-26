@@ -44,8 +44,6 @@ class ListCommand extends Command
 
         $this->table($headers, $lsm);
 
-        $this->comment('All done');
-
         return self::SUCCESS;
     }
 }
