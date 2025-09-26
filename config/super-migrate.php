@@ -12,7 +12,7 @@ return [
 
     /*
      * The name of the migration table. This is the table that will be used to store the migration history.
-     * The default value is 'laravel_super_migrations'.
+     * The default value is 'super_migrations'.
      */
     'table_name' => env('SUPER_MIGRATE_TABLE_NAME', 'super_migrations'),
 

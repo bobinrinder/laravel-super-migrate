@@ -15,7 +15,7 @@ class MigrationTest extends TestCase
 
     public function test_if_super_migrate_table_exists()
     {
-        $this->assertTrue(Schema::hasTable('laravel_super_migrations'));
+        $this->assertTrue(Schema::hasTable(config('super-migrate.table_name', 'super_migrations')));
     }
 
     public function rollbackTestMigration(string $migrationName, string $filename): void
@@ -83,14 +83,14 @@ class MigrationTest extends TestCase
     {
         expect(Schema::hasTable('success_table'))->toBeFalse();
 
-        expect(DB::table('laravel_super_migrations')->first())->toBeNull();
+        expect(DB::table(config('super-migrate.table_name', 'super_migrations'))->first())->toBeNull();
 
         $filename = $this->runTestMigration('successful_migration.php');
 
         expect(Schema::hasTable('success_table'))->toBeTrue();
         expect(Schema::hasColumn('success_table', 'name'))->toBeTrue();
 
-        $lsmEntry = DB::table('laravel_super_migrations')->orderBy('id', 'desc')->first();
+        $lsmEntry = DB::table(config('super-migrate.table_name', 'super_migrations'))->orderBy('id', 'desc')->first();
         expect($lsmEntry->name)->not->toBeNull();
         $decodedName = $this->getMigrationName($lsmEntry->name);
 
@@ -104,7 +104,7 @@ class MigrationTest extends TestCase
 
         expect(Schema::hasTable('success_table'))->toBeFalse();
 
-        $lsmEntry = DB::table('laravel_super_migrations')->orderBy('id', 'desc')->first();
+        $lsmEntry = DB::table(config('super-migrate.table_name', 'super_migrations'))->orderBy('id', 'desc')->first();
         expect(str_contains($decodedName, 'successful_migration'))->toBeTrue();
         expect($lsmEntry->method === 'down')->toBeTrue();
         expect($lsmEntry->started_at)->not->toBeNull();
@@ -116,13 +116,13 @@ class MigrationTest extends TestCase
     {
         expect(Schema::hasTable('error_table'))->toBeFalse();
 
-        expect(DB::table('laravel_super_migrations')->first())->toBeNull();
+        expect(DB::table(config('super-migrate.table_name', 'super_migrations'))->first())->toBeNull();
 
         $migrationName = $this->runTestMigration('error_migration.php');
 
         expect(Schema::hasTable('error_table'))->toBeFalse();
 
-        $lsmEntry = DB::table('laravel_super_migrations')->orderBy('id', 'desc')->first();
+        $lsmEntry = DB::table(config('super-migrate.table_name', 'super_migrations'))->orderBy('id', 'desc')->first();
         expect($lsmEntry->name)->not->toBeNull();
         $decodedName = $this->getMigrationName($lsmEntry->name);
 
