@@ -5,7 +5,7 @@
 [![GitHub Code Style Action Status](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/fix-php-code-style-issues.yml/badge.svg)](https://github.com/bobinrinder/laravel-super-migrate/actions/workflows/fix-php-code-style-issues.yml)
 [![Total Downloads](https://img.shields.io/packagist/dt/bobinrinder/laravel-super-migrate.svg?style=flat-square)](https://packagist.org/packages/bobinrinder/laravel-super-migrate)
 
-This package intends to extend Laravel's default migration functionality.
+This package extends Laravel's default migration functionality.
 
 It hooks seamlessly into the existing migration process, but tracks more details than the built-in process.
 

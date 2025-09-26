@@ -8,7 +8,7 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('laravel_super_migrations', function (Blueprint $table) {
+        Schema::create(config('super-migrate.table_name', 'super_migrations'), function (Blueprint $table) {
             $table->id();
 
             $table->uuid('run_id');
@@ -29,6 +29,6 @@ return new class extends Migration
 
     public function down()
     {
-        Schema::dropIfExists('laravel_super_migrations');
+        Schema::dropIfExists(config('super-migrate.table_name', 'super_migrations'));
     }
 };

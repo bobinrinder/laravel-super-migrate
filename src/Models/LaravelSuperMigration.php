@@ -17,12 +17,21 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  */
 class LaravelSuperMigration extends Model
 {
+    protected $table;
+
     protected $guarded = [];
 
     public $timestamps = false;
 
     // this uuid identifies a single migration run
     protected static $runId;
+
+    public function __construct(array $attributes = [])
+    {
+        parent::__construct($attributes);
+
+        $this->table = config('super-migrate.table_name', 'super_migrations');
+    }
 
     public static function initRunId(): string
     {
