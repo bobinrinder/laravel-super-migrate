@@ -54,7 +54,7 @@ class LaravelSuperMigration extends Model
 
         if (class_exists(\Composer\InstalledVersions::class)) {
             try {
-                $rootName = \Composer\InstalledVersions::getRootPackage()['name'] ?? null;
+                $rootName = \Composer\InstalledVersions::getRootPackage()['name'];
                 $rootIsThisPackage = ($rootName === 'bobinrinder/laravel-super-migrate');
             } catch (\Throwable $e) {
                 $rootIsThisPackage = false;
