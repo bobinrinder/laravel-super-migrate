@@ -28,7 +28,7 @@ class TestCase extends Orchestra
     {
         config()->set('database.default', 'testing');
 
-        $migration = include __DIR__.'/../database/migrations/create_super_migrate_table.php.stub';
+        $migration = include __DIR__.'/../database/migrations/create_super_migrate_table.php';
         $migration->up();
     }
 }
