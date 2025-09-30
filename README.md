@@ -26,17 +26,19 @@ You can install the package via composer:
 composer require bobinrinder/laravel-super-migrate
 ```
 
-You can publish and run the migrations with:
+And then run the migration with:
 
 ```bash
-php artisan vendor:publish --tag="super-migrate-migrations"
 php artisan migrate
 ```
 
-You can publish the [config file](https://github.com/bobinrinder/laravel-super-migrate/blob/main/config/super-migrate.php) with:
+## Publish
+
+Optionally you can publish the [config file](https://github.com/bobinrinder/laravel-super-migrate/blob/main/config/super-migrate.php) with and/or the migration with:
 
 ```bash
 php artisan vendor:publish --tag="super-migrate-config"
+php artisan vendor:publish --tag="super-migrate-migrations"
 ```
 
 <!-- Optionally, you can publish the views using

@@ -29,6 +29,7 @@ class LaravelSuperMigrateServiceProvider extends PackageServiceProvider
             ->hasConfigFile()
             ->hasViews()
             ->hasMigration('create_super_migrate_table')
+            ->runsMigrations()
             ->hasCommand(ListCommand::class)
             ->hasCommand(LastErrorCommand::class)
             ->hasInstallCommand(function (InstallCommand $command) {
