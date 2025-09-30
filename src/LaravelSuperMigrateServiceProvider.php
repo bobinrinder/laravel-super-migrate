@@ -46,29 +46,25 @@ class LaravelSuperMigrateServiceProvider extends PackageServiceProvider
      */
     public function packageBooted(): void
     {
-        if (config('super-migrate.enabled') !== true) {
+        if (! LaravelSuperMigration::isEnabled()) {
             return;
         }
 
-        Event::listen(function (MigrationsStarted $event) {
-            $runId = LaravelSuperMigration::initRunId();
+        Event::listen(MigrationsStarted::class, function (MigrationsStarted $event) {
+            LaravelSuperMigration::initRunId();
         });
 
-        Event::listen(function (MigrationStarted $event) {
+        Event::listen(MigrationStarted::class, function (MigrationStarted $event) {
             LaravelSuperMigration::start($event);
         });
 
-        Event::listen(function (MigrationEnded $event) {
+        Event::listen(MigrationEnded::class, function (MigrationEnded $event) {
             LaravelSuperMigration::finish($event);
         });
     }
 
     public function packageRegistered()
     {
-        if (config('super-migrate.enabled') !== true) {
-            return;
-        }
-
         // Extend Laravel's exception handler
         $this->app->extend(ExceptionHandler::class, function ($originalHandler, $app) {
             return new MigrationErrorHandler($originalHandler);

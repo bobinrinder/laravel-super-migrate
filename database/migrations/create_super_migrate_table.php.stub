@@ -8,23 +8,25 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create(config('super-migrate.table_name', 'super_migrations'), function (Blueprint $table) {
-            $table->id();
+        if (! Schema::hasTable(config('super-migrate.table_name', 'super_migrations'))) {
+            Schema::create(config('super-migrate.table_name', 'super_migrations'), function (Blueprint $table) {
+                $table->id();
 
-            $table->uuid('run_id');
-            $table->index('run_id');
+                $table->uuid('run_id');
+                $table->index('run_id');
 
-            $table->string('method')->nullable();
+                $table->string('method')->nullable();
 
-            $table->string('name')->nullable();
+                $table->string('name')->nullable();
 
-            $table->timestamp('started_at')->nullable();
-            $table->timestamp('failed_at')->nullable();
-            $table->timestamp('finished_at')->nullable();
+                $table->timestamp('started_at')->nullable();
+                $table->timestamp('failed_at')->nullable();
+                $table->timestamp('finished_at')->nullable();
 
-            $table->text('error')->nullable();
-            $table->text('stack_trace')->nullable();
-        });
+                $table->text('error')->nullable();
+                $table->text('stack_trace')->nullable();
+            });
+        }
     }
 
     public function down()

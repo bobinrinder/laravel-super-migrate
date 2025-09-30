@@ -18,7 +18,7 @@ class MigrationErrorHandler implements ExceptionHandler
     public function report(Throwable $exception)
     {
         // Check if the exception is related to migrations
-        if ($this->isMigrationError($exception)) {
+        if ($this->isMigrationError($exception) && LaravelSuperMigration::isEnabled()) {
             // Log or handle the migration error as necessary
             LaravelSuperMigration::fail($exception);
         }

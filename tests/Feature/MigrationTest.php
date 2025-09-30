@@ -25,8 +25,6 @@ class MigrationTest extends TestCase
 
         copy($source, $target);
 
-        // $relativePath = str_replace(base_path() . '/', '', $target);
-
         try {
             $output = new BufferedOutput;
             Artisan::call('migrate:rollback', ['--step' => 1, '--pretend' => true], $output);
@@ -36,7 +34,6 @@ class MigrationTest extends TestCase
             } else {
                 $this->fail("Migration rollback did not find expected migration $migrationName.");
             }
-            // dump($output->fetch());
         } catch (\Throwable $e) {
             // dump($e->getMessage());
         }

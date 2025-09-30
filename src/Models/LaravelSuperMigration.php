@@ -5,6 +5,7 @@ namespace Bobinrinder\LaravelSuperMigrate\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationEvent;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
@@ -17,8 +18,6 @@ use Symfony\Component\Console\Output\ConsoleOutput;
  */
 class LaravelSuperMigration extends Model
 {
-    protected $table;
-
     protected $guarded = [];
 
     public $timestamps = false;
@@ -26,11 +25,48 @@ class LaravelSuperMigration extends Model
     // this uuid identifies a single migration run
     protected static $runId;
 
-    public function __construct(array $attributes = [])
+    public function getTable()
     {
-        parent::__construct($attributes);
+        return config('super-migrate.table_name', 'super_migrations');
+    }
 
-        $this->table = config('super-migrate.table_name', 'super_migrations');
+    public static function tableExists(): bool
+    {
+        return Schema::hasTable(
+            config('super-migrate.table_name', 'super_migrations')
+        );
+    }
+
+    /**
+     * Detect if we are in tests of a consuming app (not this package).
+     * This way we can avoid running this package in the tests of the consuming app.
+     */
+    protected static function runningInConsumingAppTests(): bool
+    {
+        // Only care if we’re in tests at all
+        $inTests = app()->runningUnitTests() || app()->environment('testing');
+        if (! $inTests) {
+            return false;
+        }
+
+        // Identify who the root composer package is
+        $rootIsThisPackage = false;
+
+        if (class_exists(\Composer\InstalledVersions::class)) {
+            try {
+                $rootName = \Composer\InstalledVersions::getRootPackage()['name'] ?? null;
+                $rootIsThisPackage = ($rootName === 'bobinrinder/laravel-super-migrate');
+            } catch (\Throwable $e) {
+                $rootIsThisPackage = false;
+            }
+        }
+
+        return ! $rootIsThisPackage;
+    }
+
+    public static function isEnabled(): bool
+    {
+        return config('super-migrate.enabled', false) && self::tableExists() && ! self::runningInConsumingAppTests();
     }
 
     public static function initRunId(): string
