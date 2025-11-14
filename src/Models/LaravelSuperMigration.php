@@ -49,9 +49,13 @@ class LaravelSuperMigration extends Model
 
     public static function tableExists(): bool
     {
-        return Schema::hasTable(
-            config('super-migrate.table_name', 'super_migrations')
-        );
+        try {
+            return Schema::hasTable(
+                config('super-migrate.table_name', 'super_migrations')
+            );
+        } catch (\Throwable $e) {
+            return false;
+        }
     }
 
     /**
