@@ -4,9 +4,11 @@ namespace Bobinrinder\LaravelSuperMigrate\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationEvent;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\Console\Output\ConsoleOutput;
 
 /**
@@ -24,6 +26,20 @@ class LaravelSuperMigration extends Model
 
     // this uuid identifies a single migration run
     protected static $runId;
+
+    protected static ?LoggerInterface $logger = null;
+
+    protected static function logger(): LoggerInterface
+    {
+        if (self::$logger) {
+            return self::$logger;
+        }
+
+        $channel = config('super-migrate.log_channel');
+        return self::$logger = $channel
+            ? Log::channel($channel)          // respect custom package channel
+            : app(LoggerInterface::class);    // app's default logger
+    }
 
     public function getTable()
     {
@@ -200,6 +216,6 @@ class LaravelSuperMigration extends Model
             return;
         }
 
-        throw new \Exception('Super migrate failed logging!');
+        self::logger()->error('Super Migrate failed to store error.', ['exception' => $exception]);
     }
 }

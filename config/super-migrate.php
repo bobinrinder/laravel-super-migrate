@@ -17,6 +17,12 @@ return [
     'table_name' => env('SUPER_MIGRATE_TABLE_NAME', 'super_migrations'),
 
     /*
+     * The log channel that will be used to log the package's activities.
+     * If null, the default log channel will be used.
+     */
+    'log_channel' => env('SUPER_MIGRATE_LOG_CHANNEL', null),
+
+    /*
      * Allows you to decide whether you want to allow parallel migrations.
      * If set to true, the package will allow parallel migrations.
      * If set to false, the package will prevent parallel migrations.

@@ -64,7 +64,10 @@ class LaravelSuperMigrateServiceProvider extends PackageServiceProvider
         });
     }
 
-    public function packageRegistered()
+    /**
+     * Register package services.
+     */
+    public function packageRegistered(): void
     {
         // Extend Laravel's exception handler
         $this->app->extend(ExceptionHandler::class, function ($originalHandler, $app) {
