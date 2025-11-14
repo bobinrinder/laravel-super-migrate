@@ -4,8 +4,8 @@ namespace Bobinrinder\LaravelSuperMigrate\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Events\MigrationEvent;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Str;
 use Psr\Log\LoggerInterface;
@@ -36,6 +36,7 @@ class LaravelSuperMigration extends Model
         }
 
         $channel = config('super-migrate.log_channel');
+
         return self::$logger = $channel
             ? Log::channel($channel)          // respect custom package channel
             : app(LoggerInterface::class);    // app's default logger
